@@ -11,5 +11,8 @@
     "url": "git+https://github.com/alexsam29/fragments.git"
   },
   "author": "Alexander Samaniego",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "prettier": "2.8.8"
+  }
 }
