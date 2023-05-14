@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "description": "Fragments Microservice is a cloud-based solution that provides a REST API for creating, retrieving, updating, and deleting text and image fragments, with robust authorization, format conversion, and scalability features.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --config .eslintrc.js src/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -13,6 +14,7 @@
   "author": "Alexander Samaniego",
   "license": "UNLICENSED",
   "devDependencies": {
+    "eslint": "^8.40.0",
     "prettier": "2.8.8"
   }
 }
