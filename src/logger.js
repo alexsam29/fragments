@@ -1,9 +1,7 @@
-// src/logger.js
-
-// Use `info` as standard log level if not specified
+// `info` as standard log level if not specified
 const options = { level: process.env.LOG_LEVEL || 'info' };
 
-// If `debug` logging, make logs easier to read
+// If `debug` logging, make logs easy to read
 if (options.level === 'debug') {
   // https://github.com/pinojs/pino-pretty
   options.transport = {
