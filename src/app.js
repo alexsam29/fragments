@@ -3,11 +3,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 
-const { version, author } = require('../package.json');
-
 const logger = require('./logger');
 const pino = require('pino-http')({
-  // Use default logger instance
   logger,
 });
 
@@ -26,19 +23,8 @@ app.use(cors());
 // Use gzip/deflate compression middleware
 app.use(compression());
 
-// Health check route
-app.get('/', (req, res) => {
-  // Clients shouldn't cache this response
-  res.setHeader('Cache-Control', 'no-cache');
-
-  // Send a 200 'OK' response
-  res.status(200).json({
-    status: 'ok',
-    author,
-    githubUrl: 'https://github.com/alexsam29/fragments',
-    version,
-  });
-});
+// Define routes
+app.use('/', require('./routes'));
 
 // 404 middleware for resources that can't be found
 app.use((req, res) => {
