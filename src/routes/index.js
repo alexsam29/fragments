@@ -3,7 +3,7 @@ const { version, author } = require('../../package.json');
 const router = express.Router();
 
 // Authentication middleware
-const { authenticate } = require('../authentication');
+const { authenticate } = require('../authorization/index');
 
 // Expose all API routes on /v1/* to include an API version. Must be authenticated
 router.use(`/v1`, authenticate(), require('./api'));
