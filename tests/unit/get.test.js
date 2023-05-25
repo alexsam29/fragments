@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../../src/app');
 
 describe('GET /v1/fragments', () => {
-  test('unauthenticated requests are denied', () => request(app).get('/v1/fragments').expect(500));
+  test('unauthenticated requests are denied', () => request(app).get('/v1/fragments').expect(401));
 
   test('incorrect credentials are denied', () =>
     request(app).get('/v1/fragments').auth('invalid@email.com', 'incorrect_password').expect(401));
