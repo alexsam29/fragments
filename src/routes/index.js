@@ -1,5 +1,6 @@
 const express = require('express');
 const { version, author } = require('../../package.json');
+const { createSuccessResponse } = require('../response');
 const router = express.Router();
 
 // Authentication middleware
@@ -12,12 +13,13 @@ router.use(`/v1`, authenticate(), require('./api'));
 router.get('/', (req, res) => {
   // Clients shouldn't cache this response
   res.setHeader('Cache-Control', 'no-cache');
-  res.status(200).json({
-    status: 'ok',
-    author,
-    githubUrl: 'https://github.com/alexsam29/fragments',
-    version,
-  });
+  res.status(200).json(
+    createSuccessResponse({
+      author,
+      githubUrl: 'https://github.com/alexsam29/fragments',
+      version,
+    })
+  );
 });
 
 module.exports = router;
