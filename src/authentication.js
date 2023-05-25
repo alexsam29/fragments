@@ -4,6 +4,10 @@ const { CognitoJwtVerifier } = require('aws-jwt-verify');
 
 const logger = require('./logger');
 
+if (!(process.env.AWS_COGNITO_POOL_ID && process.env.AWS_COGNITO_CLIENT_ID)) {
+  throw new Error('missing expected env vars: AWS_COGNITO_POOL_ID, AWS_COGNITO_CLIENT_ID');
+}
+
 // Cognito JWT Verifier
 const jwtVerifier = CognitoJwtVerifier.create({
   userPoolId: process.env.AWS_COGNITO_POOL_ID,
