@@ -33,7 +33,7 @@ class Fragment {
       if (content.type == 'text/plain') {
         this.type = type;
       } else {
-        throw new Error('Invalid type');
+        throw new Error('Unsupported Media Type');
       }
     }
 
