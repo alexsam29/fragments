@@ -1,6 +1,6 @@
 const { createSuccessResponse, createErrorResponse } = require('../../response');
 const { Fragment } = require('../../model/fragment');
-const { randomUUID } = require('crypto');
+const hashEmail = require('../../hash');
 
 const logger = require('../../logger');
 
@@ -17,12 +17,13 @@ module.exports = (req, res) => {
     }
 
     var fragment = new Fragment({
-      ownerId: randomUUID(),
+      ownerId: hashEmail(req.user),
       type: req.headers['content-type'],
       size: 0,
     });
 
-    fragment.setData(req.body);
+    fragment.save();
+    fragment.setData(Buffer.from(req.body));
 
     // Set the Location header in the response
     res.set('Location', `${baseUrl}/v1/fragments/${fragment.id}`);

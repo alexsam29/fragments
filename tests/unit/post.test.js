@@ -45,7 +45,9 @@ describe('POST /v1/fragments', () => {
       Date.parse(res.body.fragment.created)
     );
     expect(isRandomUUID(res.body.fragment.id)).toBe(true);
-    expect(isRandomUUID(res.body.fragment.ownerId)).toBe(true);
+    expect(res.body.fragment.ownerId).toBe(
+      '11d4c22e42c8f61feaba154683dea407b101cfd90987dda9e342843263ca420a'
+    );
     expect(res.headers['location']).toBe(
       `${process.env.API_URL}/v1/fragments/${res.body.fragment.id}`
     );
