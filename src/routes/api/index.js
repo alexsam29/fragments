@@ -3,10 +3,9 @@ const router = express.Router();
 const contentType = require('content-type');
 const { Fragment } = require('../../model/fragment');
 
-// GET /v1/fragments route
 router.get('/fragments', require('./get'));
+router.get('/fragments/:id', require('./getById'));
 
-// Support sending various Content-Types on the body up to 5M in size
 const rawBody = () =>
   express.raw({
     inflate: true,
