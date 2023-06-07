@@ -1,6 +1,5 @@
 const { createSuccessResponse, createErrorResponse } = require('../../response');
 const { Fragment } = require('../../model/fragment');
-const hashEmail = require('../../hash');
 
 const logger = require('../../logger');
 
@@ -17,7 +16,7 @@ module.exports = (req, res) => {
     }
 
     var fragment = new Fragment({
-      ownerId: hashEmail(req.user),
+      ownerId: req.user,
       type: req.headers['content-type'],
       size: 0,
     });
@@ -27,10 +26,9 @@ module.exports = (req, res) => {
 
     // Set the Location header in the response
     res.set('Location', `${baseUrl}/v1/fragments/${fragment.id}`);
-
+    logger.debug({ fragment: fragment }, `POST /v1/fragments/ - Created Fragment`);
     res.status(201).json(createSuccessResponse({ fragment: fragment }));
   } catch (error) {
-    logger.warn(error, error.message);
     res.status(415).json(createErrorResponse(415, error.message));
   }
 };

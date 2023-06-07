@@ -1,12 +1,37 @@
-const hashEmail = require('../hash');
 const passport = require('passport');
 
-module.exports = (strategy) => (req, res, next) => {
-  // Hash the user's email address on req
-  if (req.user && req.user.email) {
-    req.user.email = hashEmail(req.user.email);
-  }
+const { createErrorResponse } = require('../response');
+const hash = require('../hash');
+const logger = require('../logger');
 
-  // Delegate the authorization to the specified strategy middleware
-  return passport.authenticate(strategy, { session: false })(req, res, next);
+/**
+ * @param {'bearer' | 'http'} strategyName - the passport strategy to use
+ * @returns {Function} - the middleware function to use for authentication
+ */
+module.exports = (strategyName) => {
+  return function (req, res, next) {
+    /**
+     * Define a custom callback to run after the user has been authenticated.
+     * Hash emails and modify how errors are handled.
+     * @param {Error} err - an error object
+     * @param {string} email - an authenticated user's email address
+     */
+    function callback(err, email) {
+      if (err) {
+        logger.warn({ err }, 'error authenticating user');
+        return next(createErrorResponse(500, 'Unable to authenticate user'));
+      }
+
+      if (!email) {
+        return res.status(401).json(createErrorResponse(401, 'Unauthorized'));
+      }
+
+      req.user = hash(email);
+      logger.debug({ email, hash: req.user }, 'Authenticated user');
+
+      next();
+    }
+
+    passport.authenticate(strategyName, { session: false }, callback)(req, res, next);
+  };
 };

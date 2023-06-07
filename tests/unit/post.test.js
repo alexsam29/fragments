@@ -37,16 +37,20 @@ describe('POST /v1/fragments', () => {
       .auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(201);
     expect(res.body.status).toBe('ok');
-    expect(res.body.size).toBe(textFragment.length);
-    expect(res.body.type).toBe('text/plain');
-    expect(isValidDate(res.body.created)).toBe(true);
-    expect(isValidDate(res.body.updated)).toBe(true);
-    expect(Date.parse(res.body.updated)).toBeGreaterThanOrEqual(Date.parse(res.body.created));
-    expect(isRandomUUID(res.body.id)).toBe(true);
-    expect(res.body.ownerId).toBe(
+    expect(res.body.fragment.size).toBe(textFragment.length);
+    expect(res.body.fragment.type).toBe('text/plain');
+    expect(isValidDate(res.body.fragment.created)).toBe(true);
+    expect(isValidDate(res.body.fragment.updated)).toBe(true);
+    expect(Date.parse(res.body.fragment.updated)).toBeGreaterThanOrEqual(
+      Date.parse(res.body.fragment.created)
+    );
+    expect(isRandomUUID(res.body.fragment.id)).toBe(true);
+    expect(res.body.fragment.ownerId).toBe(
       '11d4c22e42c8f61feaba154683dea407b101cfd90987dda9e342843263ca420a'
     );
-    expect(res.headers['location']).toBe(`${process.env.API_URL}/v1/fragments/${res.body.id}`);
+    expect(res.headers['location']).toBe(
+      `${process.env.API_URL}/v1/fragments/${res.body.fragment.id}`
+    );
   });
 
   test('authenticated users save an unsupported type and get an error response', async () => {
