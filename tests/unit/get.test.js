@@ -23,7 +23,7 @@ describe('GET /v1/fragments/:id', () => {
       .set('Content-Type', 'text/plain')
       .send('This is a fragment')
       .auth('user1@email.com', 'password1');
-    await request(app).get(`/v1/fragments/${post.body.fragment.id}`);
+    await request(app).get(`/v1/fragments/${post.body.id}`);
     expect(401);
   });
 
@@ -34,7 +34,7 @@ describe('GET /v1/fragments/:id', () => {
       .send('This is a fragment')
       .auth('user1@email.com', 'password1');
     await request(app)
-      .get(`/v1/fragments/${post.body.fragment.id}`)
+      .get(`/v1/fragments/${post.body.id}`)
       .auth('invalid@email.com', 'incorrect_password')
       .expect(401);
   });
@@ -46,7 +46,7 @@ describe('GET /v1/fragments/:id', () => {
       .send('This is a fragment')
       .auth('user1@email.com', 'password1');
     const res = await request(app)
-      .get(`/v1/fragments/${post.body.fragment.id}`)
+      .get(`/v1/fragments/${post.body.id}`)
       .auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(200);
     expect(res.body.status).toBe('ok');
