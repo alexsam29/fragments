@@ -1,4 +1,4 @@
-const { createSuccessResponse, createErrorResponse } = require('../../response');
+const { createErrorResponse } = require('../../response');
 const { Fragment } = require('../../model/fragment');
 const hashEmail = require('../../hash');
 
@@ -19,7 +19,8 @@ module.exports = async (req, res) => {
 
     const fragmentData = await newFragment.getData();
 
-    res.status(200).json(createSuccessResponse({ data: fragmentData.toString() }));
+    res.set('Content-Type', newFragment.type);
+    res.send(fragmentData.toString());
   } catch (error) {
     res.status(404).json(createErrorResponse(404, error.message));
   }

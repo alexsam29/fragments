@@ -49,7 +49,6 @@ describe('GET /v1/fragments/:id', () => {
       .get(`/v1/fragments/${post.body.id}`)
       .auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(200);
-    expect(res.body.status).toBe('ok');
-    expect(res.body.data).toBe('This is a fragment');
+    expect(res.text).toBe('This is a fragment');
   });
 });
