@@ -13,7 +13,7 @@ module.exports = (req, res) => {
     } else {
       const host = req.headers.host;
       const protocol = req.protocol;
-      baseUrl = new URL(host, protocol);
+      baseUrl = `${protocol}//${host}`;
     }
 
     var fragment = new Fragment({
@@ -28,7 +28,7 @@ module.exports = (req, res) => {
     // Set the Location header in the response
     res.set('Location', `${baseUrl}/v1/fragments/${fragment.id}`);
 
-    res.status(201).json(createSuccessResponse({ fragment: fragment }));
+    res.status(201).json(createSuccessResponse(fragment));
   } catch (error) {
     logger.warn(error, error.message);
     res.status(415).json(createErrorResponse(415, error.message));
