@@ -3,7 +3,7 @@ const { Fragment } = require('../../model/fragment');
 
 const logger = require('../../logger');
 
-// Get a specific fragment by ID
+// Get fragment data by ID
 module.exports = async (req, res) => {
   try {
     const fragmentId = req.params.id;

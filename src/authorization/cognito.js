@@ -17,7 +17,7 @@ const jwtVerifier = CognitoJwtVerifier.create({
 
 logger.info('Configured to use AWS Cognito for Authorization');
 
-// At startup, download and cache the public keys (JWKS)
+// Download and cache the public keys (JWKS)
 jwtVerifier
   .hydrate()
   .then(() => {
@@ -31,11 +31,8 @@ module.exports.strategy = () =>
   // Verify Bearer Token in Authorization header with Cognito JWT Verifier
   new BearerStrategy(async (token, done) => {
     try {
-      // Verify this JWT
       const user = await jwtVerifier.verify(token);
       logger.debug({ user }, 'verified user token');
-
-      // Create a user with their email
       done(null, user.email);
     } catch (err) {
       logger.error({ err, token }, 'could not verify token');

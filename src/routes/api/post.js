@@ -3,9 +3,9 @@ const { Fragment } = require('../../model/fragment');
 
 const logger = require('../../logger');
 
+// Create a fragment
 module.exports = (req, res) => {
   try {
-    // Determine the base URL for setting the Location header
     let baseUrl;
     if (process.env.API_URL) {
       baseUrl = process.env.API_URL;
@@ -24,7 +24,6 @@ module.exports = (req, res) => {
     fragment.save();
     fragment.setData(Buffer.from(req.body));
 
-    // Set the Location header in the response
     res.set('Location', `${baseUrl}/v1/fragments/${fragment.id}`);
     logger.debug({ fragment: fragment }, `POST /v1/fragments/ - Created Fragment`);
     res.status(201).json(createSuccessResponse({ fragment: fragment }));

@@ -1,6 +1,4 @@
 const MemoryDB = require('./memory-db');
-
-// Two in-memory databases: fragment metadata and raw data
 const data = new MemoryDB();
 const metadata = new MemoryDB();
 
