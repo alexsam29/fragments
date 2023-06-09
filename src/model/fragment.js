@@ -19,7 +19,6 @@ class Fragment {
     type,
     size = 0,
   }) {
-    // TODO
     if (!ownerId) {
       throw new Error('ownerId is required');
     } else {
@@ -59,7 +58,6 @@ class Fragment {
    * @returns {Promise<Array<Fragment>>}
    */
   static async byUser(ownerId, expand = false) {
-    // TODO
     return listFragments(ownerId, expand);
   }
 
@@ -70,7 +68,6 @@ class Fragment {
    * @returns {Promise<Fragment>}
    */
   static async byId(ownerId, id) {
-    // TODO
     if (!(await readFragment(ownerId, id))) {
       throw new Error('Fragment cannot be found');
     }
@@ -84,7 +81,6 @@ class Fragment {
    * @returns {Promise<void>}
    */
   static delete(ownerId, id) {
-    // TODO
     return deleteFragment(ownerId, id);
   }
 
@@ -93,7 +89,6 @@ class Fragment {
    * @returns {Promise<void>}
    */
   save() {
-    // TODO
     this.updated = null;
     this.updated = new Date();
     return writeFragment(this);
@@ -104,7 +99,6 @@ class Fragment {
    * @returns Promise<Buffer>
    */
   getData() {
-    // TODO
     return readFragmentData(this.ownerId, this.id);
   }
 
@@ -114,7 +108,6 @@ class Fragment {
    * @returns {Promise<void>}
    */
   async setData(data) {
-    // TODO
     this.updated = null;
     this.updated = new Date();
     this.size = data.length;
@@ -140,7 +133,6 @@ class Fragment {
    * @returns {boolean} true if fragment's type is text/*
    */
   get isText() {
-    // TODO
     return this.mimeType.includes('text/');
   }
 
@@ -149,7 +141,6 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    // TODO
     return [this.mimeType];
   }
 
@@ -159,7 +150,6 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) {
-    // TODO
     if (contentType.parse(value).type == 'text/plain') {
       return true;
     } else {
