@@ -66,7 +66,7 @@ npm test filename.test.js
 Similar to `npm test`, but will watch files for changes and re-run tests when a file is updated/saved without needing to input the command again.
 
 ```
-npm test:watch
+npm run test:watch
 ```
 
 ### Generate Coverage Report
