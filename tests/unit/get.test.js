@@ -61,3 +61,25 @@ describe('GET /v1/fragments/:id', () => {
     expect(res.text).toBe('This is a fragment');
   });
 });
+
+describe('GET /v1/fragments?expand=1', () => {
+  test('authenticated users get an expanded fragments array', async () => {
+    const res = await request(app)
+      .get('/v1/fragments?expand=1')
+      .auth('user1@email.com', 'password1');
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(Array.isArray(res.body.fragments)).toEqual(true);
+
+    // Check if the fragments array contains fragment objects
+    const isFragmentObject = (obj) =>
+      typeof obj.ownerId === 'string' &&
+      typeof obj.type === 'string' &&
+      typeof obj.size === 'number' &&
+      typeof obj.id === 'string' &&
+      !isNaN(Date.parse(obj.created)) &&
+      !isNaN(Date.parse(obj.updated));
+
+    expect(res.body.fragments.every(isFragmentObject)).toBe(true);
+  });
+});

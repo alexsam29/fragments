@@ -7,7 +7,15 @@ module.exports = async (req, res) => {
   try {
     const fragmentList = await Fragment.byUser(req.user);
     logger.debug({ fragmentList }, 'GET /v1/fragments - Retrieved user fragments');
-    res.status(200).json(createSuccessResponse({ fragments: fragmentList }));
+
+    if (req.query.expand === '1') {
+      const fragmentMetaDataList = await Promise.all(
+        fragmentList.map((fragmentId) => Fragment.byId(req.user, fragmentId))
+      );
+      res.status(200).json(createSuccessResponse({ fragments: fragmentMetaDataList }));
+    } else {
+      res.status(200).json(createSuccessResponse({ fragments: fragmentList }));
+    }
   } catch (error) {
     res.status(404).json(createErrorResponse(404, error.message));
   }
