@@ -5,6 +5,7 @@ const { Fragment } = require('../../model/fragment');
 
 router.get('/fragments', require('./get'));
 router.get('/fragments/:id', require('./getById'));
+router.get('/fragments/:id/info', require('./get-info'));
 
 const rawBody = () =>
   express.raw({

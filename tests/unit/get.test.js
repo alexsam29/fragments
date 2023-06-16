@@ -1,6 +1,14 @@
 const request = require('supertest');
 const app = require('../../src/app');
 
+const isFragmentObject = (obj) =>
+  typeof obj.ownerId === 'string' &&
+  typeof obj.type === 'string' &&
+  typeof obj.size === 'number' &&
+  typeof obj.id === 'string' &&
+  !isNaN(Date.parse(obj.created)) &&
+  !isNaN(Date.parse(obj.updated));
+
 describe('GET /v1/fragments', () => {
   test('unauthenticated requests are denied', () => request(app).get('/v1/fragments').expect(401));
 
@@ -70,16 +78,22 @@ describe('GET /v1/fragments?expand=1', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.status).toBe('ok');
     expect(Array.isArray(res.body.fragments)).toEqual(true);
-
-    // Check if the fragments array contains fragment objects
-    const isFragmentObject = (obj) =>
-      typeof obj.ownerId === 'string' &&
-      typeof obj.type === 'string' &&
-      typeof obj.size === 'number' &&
-      typeof obj.id === 'string' &&
-      !isNaN(Date.parse(obj.created)) &&
-      !isNaN(Date.parse(obj.updated));
-
     expect(res.body.fragments.every(isFragmentObject)).toBe(true);
+  });
+});
+
+describe('GET /v1/fragments/:id/info', () => {
+  test('authenticated users get metadata for specific fragment id', async () => {
+    const post = await request(app)
+      .post('/v1/fragments')
+      .set('Content-Type', 'text/plain')
+      .send('This is a fragment')
+      .auth('user1@email.com', 'password1');
+    const res = await request(app)
+      .get(`/v1/fragments/${post.body.fragment.id}/info`)
+      .auth('user1@email.com', 'password1');
+    expect(res.statusCode).toBe(200);
+    expect(res.body.status).toBe('ok');
+    expect(isFragmentObject(res.body.fragment)).toEqual(true);
   });
 });
