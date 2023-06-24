@@ -68,10 +68,11 @@ class Fragment {
    * @returns {Promise<Fragment>}
    */
   static async byId(ownerId, id) {
-    if (!(await readFragment(ownerId, id))) {
+    let fragment = await readFragment(ownerId, id);
+    if (!fragment) {
       throw new Error('Fragment cannot be found');
     }
-    return readFragment(ownerId, id);
+    return fragment;
   }
 
   /**
@@ -89,7 +90,6 @@ class Fragment {
    * @returns {Promise<void>}
    */
   save() {
-    this.updated = null;
     this.updated = new Date();
     return writeFragment(this);
   }
@@ -108,9 +108,8 @@ class Fragment {
    * @returns {Promise<void>}
    */
   async setData(data) {
-    this.updated = null;
-    this.updated = new Date();
     this.size = data.length;
+    await this.save();
     if (data) {
       return writeFragmentData(this.ownerId, this.id, data);
     } else {
