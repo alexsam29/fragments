@@ -1,5 +1,6 @@
 const { randomUUID } = require('crypto');
 const contentType = require('content-type');
+const SupportedTypes = require('../supportedTypes');
 
 const {
   readFragment,
@@ -29,7 +30,7 @@ class Fragment {
       throw new Error('type is required');
     } else {
       let content = contentType.parse(type);
-      if (content.type == 'text/plain') {
+      if (Object.values(SupportedTypes).includes(content.type)) {
         this.type = type;
       } else {
         throw new Error('Unsupported Media Type');
@@ -149,7 +150,7 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) {
-    if (contentType.parse(value).type == 'text/plain') {
+    if (Object.values(SupportedTypes).includes(value)) {
       return true;
     } else {
       return false;

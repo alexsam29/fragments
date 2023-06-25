@@ -2,6 +2,7 @@ const { createSuccessResponse, createErrorResponse } = require('../../response')
 const { Fragment } = require('../../model/fragment');
 
 const logger = require('../../logger');
+const SupportedTypes = require('../../supportedTypes');
 
 // Create a fragment
 module.exports = async (req, res) => {
@@ -22,14 +23,14 @@ module.exports = async (req, res) => {
       return;
     }
 
-    var fragment = new Fragment({
+    const fragment = new Fragment({
       ownerId: req.user,
-      type: req.headers['content-type'],
+      type: contentType,
       size: 0,
     });
 
     await fragment.save();
-    await fragment.setData(Buffer.from(req.body));
+    await fragment.setData(req.body);
 
     res.set('Location', `${baseUrl}/v1/fragments/${fragment.id}`);
     logger.debug({ fragment: fragment }, `POST /v1/fragments/ - Created Fragment`);
@@ -42,8 +43,5 @@ module.exports = async (req, res) => {
 
 // Check if the content type is valid
 function isValidContentType(contentType) {
-  if (contentType == 'text/plain') {
-    return true;
-  }
-  return false;
+  return Object.values(SupportedTypes).includes(contentType);
 }

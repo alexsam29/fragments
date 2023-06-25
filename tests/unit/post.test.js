@@ -56,7 +56,7 @@ describe('POST /v1/fragments', () => {
   test('authenticated users save an unsupported type and get an error response', async () => {
     const res = await request(app)
       .post('/v1/fragments')
-      .set('Content-Type', 'text/javascript')
+      .set('Content-Type', 'image/jpeg')
       .send(textFragment)
       .auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(415);
