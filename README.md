@@ -95,6 +95,15 @@ This command will build the Dockerfile located in the current directory (i.e., .
 docker run --rm --name fragments fragments:latest
 ```
 
+Flags:
+
+- `--rm`: Automatically clean up the container and remove the file system when the container exits.
+- `--name`: Add custom container name.
+- `--env-file`: Specify `env` file to use.
+- `-p`: Map a container’s port or a range of ports to the host explicitly.
+- `-e`: Pass environment variables to your containers.
+- `-d`: Detaches the container process and runs it in the background
+
 #### Run with `env` file
 
 ```
@@ -117,4 +126,22 @@ docker run --rm --name fragments --env-file [ENV FILE] -e LOG_LEVEL=debug -p [HO
 
 ```
 docker run --rm --name fragments --env-file [ENV FILE] -e LOG_LEVEL=debug -p [HOST PORT #]:[CONTAINER PORT #] -d fragments:latest
+```
+
+### Tag Images
+
+```
+docker tag [IMAGE_NAME]:[TAG] [NEW_IMAGE_NAME]:[TAG]
+```
+
+### Push to Docker Hub
+
+```
+docker push [USERNAME]/[IMAGE]:[TAG]
+```
+
+#### Push All Tags
+
+```
+docker push --all-tags [USERNAME]/[IMAGE]
 ```
