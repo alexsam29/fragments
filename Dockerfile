@@ -51,7 +51,7 @@ COPY ./tests/.htpasswd ./tests/.htpasswd
 USER node
 
 # Start the container by running the server
-CMD npm start
+CMD ["npm", "start"]
 
 # Service runs on port 8080
 EXPOSE 8080
