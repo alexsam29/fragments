@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../../src/app');
+const hash = require('../../src/hash');
 
 function isValidDate(dateString) {
   const date = new Date(dateString);
@@ -29,7 +30,7 @@ describe('POST /v1/fragments', () => {
       .auth('invalid@email.com', 'incorrect_password')
       .expect(401));
 
-  test('authenticated users save a fragment and get a fragment JSON object response', async () => {
+  test('authenticated users save a text fragment and get a JSON object response', async () => {
     const res = await request(app)
       .post('/v1/fragments')
       .set('Content-Type', 'text/plain')
@@ -45,9 +46,31 @@ describe('POST /v1/fragments', () => {
       Date.parse(res.body.fragment.created)
     );
     expect(isRandomUUID(res.body.fragment.id)).toBe(true);
-    expect(res.body.fragment.ownerId).toBe(
-      '11d4c22e42c8f61feaba154683dea407b101cfd90987dda9e342843263ca420a'
+    expect(res.body.fragment.ownerId).toBe(hash('user1@email.com'));
+    expect(res.headers['location']).toBe(
+      `${process.env.API_URL}/v1/fragments/${res.body.fragment.id}`
     );
+  });
+
+  test('authenticated users save a JSON fragment and get a JSON object response', async () => {
+    let JSONfragment = '{"test": 123, "data": "this is a test JSON fragment"}';
+    const res = await request(app)
+      .post('/v1/fragments')
+      .set('Content-Type', 'application/json')
+      .send(JSONfragment)
+      .auth('user1@email.com', 'password1');
+    console.log(res.body.fragment);
+    expect(res.statusCode).toBe(201);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.fragment.size).toBe(JSONfragment.length);
+    expect(res.body.fragment.type).toBe('application/json');
+    expect(isValidDate(res.body.fragment.created)).toBe(true);
+    expect(isValidDate(res.body.fragment.updated)).toBe(true);
+    expect(Date.parse(res.body.fragment.updated)).toBeGreaterThanOrEqual(
+      Date.parse(res.body.fragment.created)
+    );
+    expect(isRandomUUID(res.body.fragment.id)).toBe(true);
+    expect(res.body.fragment.ownerId).toBe(hash('user1@email.com'));
     expect(res.headers['location']).toBe(
       `${process.env.API_URL}/v1/fragments/${res.body.fragment.id}`
     );

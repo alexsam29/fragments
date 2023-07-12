@@ -56,7 +56,7 @@ describe('GET /v1/fragments/:id', () => {
       .expect(401);
   });
 
-  test('authenticated user request data for an existing fragment by id', async () => {
+  test('authenticated user request data for an existing text fragment by id', async () => {
     const post = await request(app)
       .post('/v1/fragments')
       .set('Content-Type', 'text/plain')
@@ -67,6 +67,22 @@ describe('GET /v1/fragments/:id', () => {
       .auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(200);
     expect(res.text).toBe('This is a fragment');
+  });
+
+  test('authenticated user request data for an existing JSON fragment by id', async () => {
+    const post = await request(app)
+      .post('/v1/fragments')
+      .set('Content-Type', 'application/json')
+      .send('{"test": 123, "data": "this is a test JSON fragment"}')
+      .auth('user1@email.com', 'password1');
+    const res = await request(app)
+      .get(`/v1/fragments/${post.body.fragment.id}`)
+      .auth('user1@email.com', 'password1');
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.text)).toMatchObject({
+      test: 123,
+      data: 'this is a test JSON fragment',
+    });
   });
 });
 
