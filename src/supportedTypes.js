@@ -7,6 +7,7 @@ const SupportedTypes = {
   TEXT_CSV: 'text/csv',
   TEXT_JAVASCRIPT: 'text/javascript',
   TEXT_XML: 'text/xml',
+  TEXT_MD: 'text/markdown',
   APPLICATION_JSON: 'application/json',
 };
 
