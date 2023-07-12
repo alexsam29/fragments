@@ -47,6 +47,9 @@ COPY ./src ./src
 # Copy HTPASSWD file
 COPY ./tests/.htpasswd ./tests/.htpasswd
 
+# Add curl
+RUN apk --update --no-cache add curl=8.1.2-r0
+
 # Switch USER to node
 USER node
 
@@ -55,3 +58,7 @@ CMD ["npm", "start"]
 
 # Service runs on port 8080
 EXPOSE 8080
+
+# Health Check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD curl --fail http://localhost:8080 || exit 1
