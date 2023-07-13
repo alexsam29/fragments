@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../../src/app');
+const MarkdownIt = require('markdown-it');
 
 const isFragmentObject = (obj) =>
   typeof obj.ownerId === 'string' &&
@@ -83,6 +84,20 @@ describe('GET /v1/fragments/:id', () => {
       test: 123,
       data: 'this is a test JSON fragment',
     });
+  });
+
+  test('authenticated user requests conversion of markdown fragment to HTML', async () => {
+    const post = await request(app)
+      .post('/v1/fragments')
+      .set('Content-Type', 'text/markdown')
+      .send('# This is a text markdown fragment')
+      .auth('user1@email.com', 'password1');
+    const res = await request(app)
+      .get(`/v1/fragments/${post.body.fragment.id}.html`)
+      .auth('user1@email.com', 'password1');
+    expect(res.statusCode).toBe(200);
+    var md = new MarkdownIt();
+    expect(res.text).toBe(md.render('# This is a text markdown fragment'));
   });
 });
 
