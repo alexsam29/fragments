@@ -59,7 +59,6 @@ describe('POST /v1/fragments', () => {
       .set('Content-Type', 'application/json')
       .send(JSONfragment)
       .auth('user1@email.com', 'password1');
-    console.log(res.body.fragment);
     expect(res.statusCode).toBe(201);
     expect(res.body.status).toBe('ok');
     expect(res.body.fragment.size).toBe(JSONfragment.length);
