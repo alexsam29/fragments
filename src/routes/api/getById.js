@@ -15,9 +15,10 @@ module.exports = async (req, res) => {
       `GET /v1/fragments/${fragmentId} - Retrieved fragment by ID`
     );
 
-    const extension = req.params.id.split('.').pop();
+    var extension = req.params.id.split('.');
 
-    if (extension.length > 0 && newFragment.type == 'text/markdown') {
+    if (extension.length > 1 && newFragment.type == 'text/markdown') {
+      extension = extension.pop();
       // Set the appropriate content type and response data based on the extension
       switch (extension) {
         case 'html':
