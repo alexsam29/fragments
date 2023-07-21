@@ -48,7 +48,7 @@ COPY ./src ./src
 COPY ./tests/.htpasswd ./tests/.htpasswd
 
 # Add curl
-RUN apk update --no-cache add curl=8.1.2-r0
+RUN apk --update --no-cache add curl=8.2.0-r1
 
 # Switch USER to node
 USER node
