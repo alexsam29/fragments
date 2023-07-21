@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     } else {
       const host = req.headers.host;
       const protocol = req.protocol;
-      baseUrl = `${protocol}//${host}`;
+      baseUrl = `${protocol}://${host}`;
     }
 
     const contentType = req.headers['content-type'];
