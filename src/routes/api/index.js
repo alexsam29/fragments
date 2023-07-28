@@ -19,4 +19,6 @@ const rawBody = () =>
 
 router.post('/fragments', rawBody(), require('./post'));
 
+router.delete('/fragments/:id', require('./delete'));
+
 module.exports = router;
