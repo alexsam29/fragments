@@ -45,7 +45,7 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPO: fragments
           VERSION_TAG: ${{ github.ref_name }}
-         with:
+        with:
           task-definition: fragments-definition.json
           container-name: fragments
           image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPO }}:${{ env.VERSION_TAG }}
@@ -68,4 +68,3 @@ jobs:
           cluster: fragments-cluster
           service: fragments-service
           wait-for-service-stability: true
-
