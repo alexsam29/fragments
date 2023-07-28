@@ -57,7 +57,6 @@ jobs:
             AWS_REGION=${{ secrets.AWS_REGION }}
             PORT=${{ secrets.PORT }}
             API_URL=${{ secrets.API_URL }}
-            AWS_S3_BUCKET_NAME=asamaniego-fragments
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1

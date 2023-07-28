@@ -104,6 +104,12 @@
   "networkMode": "awsvpc",
   "runtimePlatform": null,
   "cpu": "256",
+  "environment": [
+    {
+      "name": "AWS_S3_BUCKET_NAME",
+      "value": "asamaniego-fragments"
+    }
+  ],
   "revision": 1,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
