@@ -58,8 +58,6 @@ jobs:
             PORT=${{ secrets.PORT }}
             API_URL=${{ secrets.API_URL }}
             AWS_S3_BUCKET_NAME=${{ secrets.AWS_S3_BUCKET_NAME }}
-            DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
-            DOCKERHUB_TOKEN=${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
