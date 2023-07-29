@@ -1,7 +1,7 @@
 {
   "name": "fragments",
   "private": true,
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "Fragments Microservice is a cloud-based solution that provides a REST API for creating, retrieving, updating, and deleting text and image fragments, with robust authorization, format conversion, and scalability features.",
   "scripts": {
     "test:watch": "jest -c jest.config.js --runInBand --watch --",
