@@ -9,6 +9,8 @@ const SupportedTypes = {
   TEXT_XML: 'text/xml',
   TEXT_MD: 'text/markdown',
   APPLICATION_JSON: 'application/json',
+  IMAGE_JPEG: 'image/jpeg',
+  IMAGE_PNG: 'image/png',
 };
 
 module.exports = SupportedTypes;

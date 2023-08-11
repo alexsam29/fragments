@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../../src/app');
 const hash = require('../../src/hash');
+const path = require('path');
 
 function isValidDate(dateString) {
   const date = new Date(dateString);
@@ -78,10 +79,38 @@ describe('POST /v1/fragments', () => {
   test('authenticated users save an unsupported type and get an error response', async () => {
     const res = await request(app)
       .post('/v1/fragments')
-      .set('Content-Type', 'image/jpeg')
+      .set('Content-Type', 'audio/mp3')
       .send(textFragment)
       .auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(415);
     expect(res.body.status).toBe('error');
+  });
+
+  test('authenticated users save an image fragment and get a JSON object response', async () => {
+    // Read an image file as a Buffer (you need to replace this with actual image data)
+    const fs = require('fs');
+    const imagePath = path.join(__dirname, '../images/earth.jpg'); // Replace with actual image path
+    const imageBuffer = fs.readFileSync(imagePath);
+
+    const res = await request(app)
+      .post('/v1/fragments')
+      .set('Content-Type', 'image/jpeg')
+      .send(imageBuffer)
+      .auth('user1@email.com', 'password1');
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.fragment.size).toBe(imageBuffer.length);
+    expect(res.body.fragment.type).toBe('image/jpeg');
+    expect(isValidDate(res.body.fragment.created)).toBe(true);
+    expect(isValidDate(res.body.fragment.updated)).toBe(true);
+    expect(Date.parse(res.body.fragment.updated)).toBeGreaterThanOrEqual(
+      Date.parse(res.body.fragment.created)
+    );
+    expect(isRandomUUID(res.body.fragment.id)).toBe(true);
+    expect(res.body.fragment.ownerId).toBe(hash('user1@email.com'));
+    expect(res.headers['location']).toBe(
+      `${process.env.API_URL}/v1/fragments/${res.body.fragment.id}`
+    );
   });
 });
