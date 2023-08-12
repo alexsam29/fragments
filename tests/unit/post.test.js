@@ -87,9 +87,8 @@ describe('POST /v1/fragments', () => {
   });
 
   test('authenticated users save an image fragment and get a JSON object response', async () => {
-    // Read an image file as a Buffer (you need to replace this with actual image data)
     const fs = require('fs');
-    const imagePath = path.join(__dirname, '../images/earth.jpg'); // Replace with actual image path
+    const imagePath = path.join(__dirname, '../images/earth.jpg');
     const imageBuffer = fs.readFileSync(imagePath);
 
     const res = await request(app)
@@ -102,6 +101,33 @@ describe('POST /v1/fragments', () => {
     expect(res.body.status).toBe('ok');
     expect(res.body.fragment.size).toBe(imageBuffer.length);
     expect(res.body.fragment.type).toBe('image/jpeg');
+    expect(isValidDate(res.body.fragment.created)).toBe(true);
+    expect(isValidDate(res.body.fragment.updated)).toBe(true);
+    expect(Date.parse(res.body.fragment.updated)).toBeGreaterThanOrEqual(
+      Date.parse(res.body.fragment.created)
+    );
+    expect(isRandomUUID(res.body.fragment.id)).toBe(true);
+    expect(res.body.fragment.ownerId).toBe(hash('user1@email.com'));
+    expect(res.headers['location']).toBe(
+      `${process.env.API_URL}/v1/fragments/${res.body.fragment.id}`
+    );
+  });
+
+  test('authenticated users save an PNG image fragment and get a JSON object response', async () => {
+    const fs = require('fs');
+    const imagePath = path.join(__dirname, '../images/space.png');
+    const imageBuffer = fs.readFileSync(imagePath);
+
+    const res = await request(app)
+      .post('/v1/fragments')
+      .set('Content-Type', 'image/png')
+      .send(imageBuffer)
+      .auth('user1@email.com', 'password1');
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body.status).toBe('ok');
+    expect(res.body.fragment.size).toBe(imageBuffer.length);
+    expect(res.body.fragment.type).toBe('image/png');
     expect(isValidDate(res.body.fragment.created)).toBe(true);
     expect(isValidDate(res.body.fragment.updated)).toBe(true);
     expect(Date.parse(res.body.fragment.updated)).toBeGreaterThanOrEqual(
