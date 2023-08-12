@@ -4,6 +4,7 @@ const MarkdownIt = require('markdown-it');
 const path = require('path');
 const TurndownService = require('turndown');
 const SupportedTypes = require('../../src/supportedTypes');
+const fs = require('fs');
 
 const isFragmentObject = (obj) =>
   typeof obj.ownerId === 'string' &&
@@ -210,7 +211,6 @@ describe('GET /v1/fragments/:id.ext', () => {
   describe('Image conversions', () => {
     describe('JPEG conversions to PNG, WEBP, and GIF', () => {
       test('authenticated user requests conversion of JPEG fragment to PNG', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/earth.jpg');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -228,7 +228,6 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of JPEG fragment to GIF', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/earth.jpg');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -246,7 +245,6 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of JPEG fragment to WEBP', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/earth.jpg');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -266,7 +264,6 @@ describe('GET /v1/fragments/:id.ext', () => {
 
     describe('PNG conversions to JPEG, GIF, and WEBP', () => {
       test('authenticated user requests conversion of PNG fragment to JPEG', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/space.png');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -284,7 +281,6 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of PNG fragment to GIF', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/space.png');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -302,7 +298,6 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of PNG fragment to WEBP', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/space.png');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -322,7 +317,6 @@ describe('GET /v1/fragments/:id.ext', () => {
 
     describe('GIF conversions to JPEG, PNG, and WEBP', () => {
       test('authenticated user requests conversion of GIF fragment to JPEG', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/sun.gif');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -340,7 +334,6 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of GIF fragment to PNG', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/sun.gif');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -358,7 +351,6 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of GIF fragment to WEBP', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/sun.gif');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -378,7 +370,6 @@ describe('GET /v1/fragments/:id.ext', () => {
 
     describe('WEBP conversions to JPEG, PNG, and GIF', () => {
       test('authenticated user requests conversion of WEBP fragment to JPEG', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/earth.webp');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -396,7 +387,6 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of WEBP fragment to PNG', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/earth.webp');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -414,7 +404,6 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of WEBP fragment to GIF', async () => {
-        const fs = require('fs');
         const imagePath = path.join(__dirname, '../images/earth.webp');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
@@ -463,7 +452,6 @@ describe('GET /v1/fragments/:id/info', () => {
 });
 
 test('authenticated user request data for an existing image fragment by id', async () => {
-  const fs = require('fs');
   const imagePath = path.join(__dirname, '../images/earth.jpg');
 
   const imageBuffer = fs.readFileSync(imagePath);
