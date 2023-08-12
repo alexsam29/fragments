@@ -208,6 +208,37 @@ describe('GET /v1/fragments/:id.ext', () => {
     });
   });
 
+  describe('JSON conversions', () => {
+    describe('JSON conversion to plain text', () => {
+      test('authenticated user requests conversion of JSON fragment to plain text', async () => {
+        const jsonObject = {
+          key1: 'value1',
+          key2: 'value2',
+          key3: {
+            nestedKey1: 'nestedValue1',
+            nestedKey2: 'nestedValue2',
+          },
+        };
+        const post = await request(app)
+          .post('/v1/fragments')
+          .set('Content-Type', 'application/json')
+          .send(jsonObject)
+          .auth('user1@email.com', 'password1');
+
+        const res = await request(app)
+          .get(`/v1/fragments/${post.body.fragment.id}.txt`)
+          .auth('user1@email.com', 'password1');
+
+        expect(res.statusCode).toBe(200);
+        expect(res.headers['content-type'].split(';')[0]).toBe(SupportedTypes.TEXT_PLAIN);
+
+        // Convert JSON to plain text for comparison
+        const expectedPlainText = JSON.stringify(jsonObject, null, 2);
+        expect(res.text).toBe(expectedPlainText);
+      });
+    });
+  });
+
   describe('Image conversions', () => {
     describe('JPEG conversions to PNG, WEBP, and GIF', () => {
       test('authenticated user requests conversion of JPEG fragment to PNG', async () => {

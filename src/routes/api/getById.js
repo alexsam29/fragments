@@ -97,6 +97,22 @@ module.exports = async (req, res) => {
       }
     }
 
+    // Handle JSON conversions
+    if (extension.length > 1 && fragment.type.startsWith('application/json')) {
+      extension = extension.pop();
+      switch (extension) {
+        // Convert JSON fragment to text
+        case 'txt':
+          fragment.type = SupportedTypes.TEXT_PLAIN;
+          fragmentData = Buffer.from(JSON.stringify(JSON.parse(fragmentData), null, 2));
+          break;
+        default:
+          // Handle unsupported extensions
+          res.status(400).json(createErrorResponse(415, 'Unsupported extension'));
+          return;
+      }
+    }
+
     // Handle image conversions
     if (extension.length > 1 && fragment.type.startsWith('image/')) {
       extension = extension.pop();
