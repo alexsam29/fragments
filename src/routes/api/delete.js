@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
     Fragment.delete(req.user, fragmentId);
     logger.debug(`DELETE /v1/fragments/${fragmentId} - Fragment deleted`);
 
-    res.send(createSuccessResponse());
+    res.status(200).json(createSuccessResponse());
   } catch (error) {
     res.status(404).json(createErrorResponse(404, error.message));
   }
