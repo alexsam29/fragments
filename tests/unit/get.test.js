@@ -242,7 +242,7 @@ describe('GET /v1/fragments/:id.ext', () => {
   describe('Image conversions', () => {
     describe('JPEG conversions to PNG, WEBP, and GIF', () => {
       test('authenticated user requests conversion of JPEG fragment to PNG', async () => {
-        const imagePath = path.join(__dirname, '../images/earth.jpg');
+        const imagePath = path.join(__dirname, 'images/earth.jpg');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -254,12 +254,13 @@ describe('GET /v1/fragments/:id.ext', () => {
           .get(`/v1/fragments/${post.body.fragment.id}.png`)
           .auth('user1@email.com', 'password1');
 
+        console.log(res.statusCode);
         expect(res.statusCode).toBe(200);
         expect(res.headers['content-type'].split(';')[0]).toBe(SupportedTypes.IMAGE_PNG);
       });
 
       test('authenticated user requests conversion of JPEG fragment to GIF', async () => {
-        const imagePath = path.join(__dirname, '../images/earth.jpg');
+        const imagePath = path.join(__dirname, 'images/earth.jpg');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -276,7 +277,7 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of JPEG fragment to WEBP', async () => {
-        const imagePath = path.join(__dirname, '../images/earth.jpg');
+        const imagePath = path.join(__dirname, 'images/earth.jpg');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -295,7 +296,7 @@ describe('GET /v1/fragments/:id.ext', () => {
 
     describe('PNG conversions to JPEG, GIF, and WEBP', () => {
       test('authenticated user requests conversion of PNG fragment to JPEG', async () => {
-        const imagePath = path.join(__dirname, '../images/space.png');
+        const imagePath = path.join(__dirname, 'images/space.png');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -312,7 +313,7 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of PNG fragment to GIF', async () => {
-        const imagePath = path.join(__dirname, '../images/space.png');
+        const imagePath = path.join(__dirname, 'images/space.png');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -329,7 +330,7 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of PNG fragment to WEBP', async () => {
-        const imagePath = path.join(__dirname, '../images/space.png');
+        const imagePath = path.join(__dirname, 'images/space.png');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -348,7 +349,7 @@ describe('GET /v1/fragments/:id.ext', () => {
 
     describe('GIF conversions to JPEG, PNG, and WEBP', () => {
       test('authenticated user requests conversion of GIF fragment to JPEG', async () => {
-        const imagePath = path.join(__dirname, '../images/sun.gif');
+        const imagePath = path.join(__dirname, 'images/sun.gif');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -365,7 +366,7 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of GIF fragment to PNG', async () => {
-        const imagePath = path.join(__dirname, '../images/sun.gif');
+        const imagePath = path.join(__dirname, 'images/sun.gif');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -382,7 +383,7 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of GIF fragment to WEBP', async () => {
-        const imagePath = path.join(__dirname, '../images/sun.gif');
+        const imagePath = path.join(__dirname, 'images/sun.gif');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -401,7 +402,7 @@ describe('GET /v1/fragments/:id.ext', () => {
 
     describe('WEBP conversions to JPEG, PNG, and GIF', () => {
       test('authenticated user requests conversion of WEBP fragment to JPEG', async () => {
-        const imagePath = path.join(__dirname, '../images/earth.webp');
+        const imagePath = path.join(__dirname, 'images/earth.webp');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -418,7 +419,7 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of WEBP fragment to PNG', async () => {
-        const imagePath = path.join(__dirname, '../images/earth.webp');
+        const imagePath = path.join(__dirname, 'images/earth.webp');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -435,7 +436,7 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
 
       test('authenticated user requests conversion of WEBP fragment to GIF', async () => {
-        const imagePath = path.join(__dirname, '../images/earth.webp');
+        const imagePath = path.join(__dirname, 'images/earth.webp');
         const imageBuffer = fs.readFileSync(imagePath);
         const post = await request(app)
           .post('/v1/fragments')
@@ -483,7 +484,7 @@ describe('GET /v1/fragments/:id/info', () => {
 });
 
 test('authenticated user request data for an existing image fragment by id', async () => {
-  const imagePath = path.join(__dirname, '../images/earth.jpg');
+  const imagePath = path.join(__dirname, 'images/earth.jpg');
 
   const imageBuffer = fs.readFileSync(imagePath);
   const post = await request(app)
