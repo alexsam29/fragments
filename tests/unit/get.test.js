@@ -451,8 +451,8 @@ describe('GET /v1/fragments/:id.ext', () => {
         expect(res.headers['content-type'].split(';')[0]).toBe(SupportedTypes.IMAGE_GIF);
       });
     });
-  });
-}); */
+  }); */
+});
 
 describe('GET /v1/fragments?expand=1', () => {
   test('authenticated users get an expanded fragments array', async () => {
