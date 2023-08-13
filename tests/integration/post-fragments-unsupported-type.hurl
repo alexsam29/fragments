@@ -1,6 +1,6 @@
 # [BasicAuth] POST Request
 POST http://localhost:8080/v1/fragments
-Content-Type: image/jpeg
+Content-Type: text/javascript
 [BasicAuth]
 user1@email.com:password1
 # Body of the request goes in ```...``` when it's a string
