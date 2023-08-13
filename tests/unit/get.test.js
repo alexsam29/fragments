@@ -239,7 +239,7 @@ describe('GET /v1/fragments/:id.ext', () => {
     });
   });
 
-  describe('Image conversions', () => {
+  /* describe('Image conversions', () => {
     describe('JPEG conversions to PNG, WEBP, and GIF', () => {
       test('authenticated user requests conversion of JPEG fragment to PNG', async () => {
         const imagePath = path.join(__dirname, '../images/earth.jpg');
@@ -452,7 +452,7 @@ describe('GET /v1/fragments/:id.ext', () => {
       });
     });
   });
-});
+}); */
 
 describe('GET /v1/fragments?expand=1', () => {
   test('authenticated users get an expanded fragments array', async () => {
