@@ -52,7 +52,6 @@ module.exports = async (req, res) => {
     res.status(200).json(createSuccessResponse({ fragment: fragment }));
   } catch (error) {
     logger.error({ error }, `Unhandled server error in /PUT request`);
-    console.log(error);
     res.status(500).json(createErrorResponse(500, error.message));
   }
 };
