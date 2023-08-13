@@ -88,7 +88,7 @@ describe('POST /v1/fragments', () => {
 
   test('authenticated users save an image fragment and get a JSON object response', async () => {
     const fs = require('fs');
-    const imagePath = path.join(__dirname, 'images/earth.jpg');
+    const imagePath = path.join(__dirname, '../images/earth.jpg');
     const imageBuffer = fs.readFileSync(imagePath);
 
     const res = await request(app)
@@ -115,7 +115,7 @@ describe('POST /v1/fragments', () => {
 
   test('authenticated users save an PNG image fragment and get a JSON object response', async () => {
     const fs = require('fs');
-    const imagePath = path.join(__dirname, 'images/space.png');
+    const imagePath = path.join(__dirname, '../images/space.png');
     const imageBuffer = fs.readFileSync(imagePath);
 
     const res = await request(app)
